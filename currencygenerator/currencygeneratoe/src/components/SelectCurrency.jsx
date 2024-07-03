@@ -1,40 +1,42 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
-import { GetData } from '../../../GetData'
 import Dollar from '../assets/Dollar.png'
-import Currency from '/current.json'
+import From from './From'
+import { useState } from 'react'
 
-const SelectCurrency = () => {
+const SelectCurrency = ({fromCurrency,toCurrency,setFromCurrency,setToCurrency}) => {
+  const [isRotated, setIsRotated] = useState(false);
+  const handleSwap =()=>{
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+    setIsRotated(prev => !prev);
+
+  }
 
 
-  const [fromCurrency, setFromCurrency] = useState('USD')
-  const [toCurrency, setToCurrency] = useState('GBP')
+ const roll = document.getElementById('roll')
+ const flag = fromCurrency.substring(0, 2);
+ const sflag = toCurrency.substring(0, 2);
+ 
+  
 
-  const  apiKey = 'bfe9f7e3f5dcd73e06fd9a69';
-  const  amount = 100
 
-  const conRate = GetData(apiKey, fromCurrency,toCurrency,amount) 
 
-  // console.log(conRate)
   return (
     <div className=' flex  w-[100%] justify-between'>
-     <div>
-       <select className='w-[90px] h-[35px] border rounded-md bg-transparent text-white p-2' name="currency" id="currency"> 
-      { Currency.map(oneCur => (
-        <option className='text-black' value={oneCur.cc} id='fromCur'>{oneCur.cc}</option> 
-       ))  }  </select> 
+    
+     <div className='flex gap-2 border-white border rounded-md p-1'>
+       <img src={`https://flagsapi.com/${flag}/flat/64.png`} className='w-[34px] h-[34px]' />
+      <From  fromCurrency = {fromCurrency} selectedCurrency={fromCurrency} handleChange={event=> setFromCurrency(event.target.value)} />
     </div>
 
   
-      <div className='w-8 h-8 border flex justify-center items-center border-white rounded-full' > <img src={Dollar} alt=""  className='w-6 h-6'/></div>
+      <div onClick={handleSwap}  className={`w-10 h-10 cursor-pointer border flex justify-center items-center border-white rounded-full  ${isRotated ? 'rotate' : ''}`} id='roll' > <img src={Dollar} alt=""  className='w-6 h-6'/></div>
    
    
    
-      <div>
-       <select className='w-[90px] h-[35px] border rounded-md bg-transparent text-white p-2' name="currency" id="currency"> 
-       { Currency.map(oneCur => (
-        <option className='text-black' value={oneCur.cc} id='fromCur'>{oneCur.cc}</option> 
-       ))  }  </select>
+      <div  className='flex gap-2 border-white border rounded-md p-1'>
+      <img src={`https://flagsapi.com/${sflag}/flat/64.png`} className='w-[34px] h-[34px]' />
+      <From  selectedCurrency={toCurrency}  toCurrency={toCurrency} handleChange={event=> setToCurrency(event.target.value)} />
     </div>
 
 

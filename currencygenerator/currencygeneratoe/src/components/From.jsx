@@ -1,13 +1,24 @@
 import React from 'react'
+import { useState } from 'react';
+import Currency from '/current.json'
+
+ 
 
 
-const From = () => {
+const From = ({handleChange,selectedCurrency}) => {  
+
+  
+ 
+ 
+
   return (
     <div>
-       <select className='w-[90px] h-[35px] border rounded-md bg-transparent text-white p-2' name="currency" id="currency"> 
-       <option id='childCurrency' value=""></option> </select> 
+       <select value={selectedCurrency} onChange={handleChange} className='w-[60px] h-[35px] cursor-pointer  rounded-md bg-transparent text-white focus:outline-none  ' name="currency" id="currency"> 
+      { Currency.map(oneCur => (
+        <option  className='text-black' value={oneCur.cc} key={oneCur.cc} id='fromCur'>{oneCur.cc}</option> 
+       ))  }  </select> 
     </div>
-  )
+  ) 
 }
 
 export default From
